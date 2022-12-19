@@ -1,7 +1,10 @@
 // @ts-nocheck
 "use client";
 import { Bar } from "react-chartjs-2";
-import { use } from "react";
+import { use, useRef } from "react";
+import { useRouter } from "next/navigation";
+import InfoAlert from "../components/InfoAlert";
+import DataTable from "../components/DataTable";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -35,12 +38,19 @@ const fetchTerms = async () => {
 
 const Home = () => {
   const data = use(fetchTerms());
+  const searchRef = useRef<HTMLInputElement>(null);
 
   const supportedTerms = data.map((e: string) => {
-    return <div key={e}>{e}</div>;
+    return (
+      <tr key={e}>
+        <td>{e}</td>
+      </tr>
+    );
   });
 
   const options = {
+    responsive: true,
+    maintainAspectRatio: true,
     plugins: {
       legend: {
         position: "top" as const,
@@ -169,12 +179,47 @@ const Home = () => {
     ],
   };
 
+  const handleKeyDown = (k: KeyboardEvent) => {
+    if (k.key == "Enter" && document.getElementById("search").value) {
+      window.location.href = `/chart/${
+        document.getElementById("search").value
+      }`;
+    }
+  };
+
   return (
     <div>
-      Data are available from the following terms...
-      {supportedTerms}
-      <input type="text"></input>
       <Bar options={options} data={chartData} />
+      <div className="flex gap-2 mx-4">
+        <div className="collapse collapse-arrow w-full max-w-sm">
+          <input type="checkbox" />
+          <div className="collapse-title text-xl font-medium">
+            <InfoAlert message="Click to view tips!" />
+          </div>
+          <div className="collapse-content">
+            <ul>
+              <li>Click a professor&apos;s name in the legend to hide them</li>
+              <li>
+                Multiple classes can be separated by semicolons:
+                CSE214;CSE215;CSE216
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="flex w-full">
+          <input
+            id="search"
+            type="text"
+            placeholder="Search... "
+            ref={searchRef}
+            onKeyUp={handleKeyDown}
+            className="input input-bordered input-accent w-full h-full mx-4"
+          ></input>
+          <kbd class="kbd">Enter</kbd>
+        </div>
+      </div>
+      <DataTable completeness={20} supportedTerms={supportedTerms} />
     </div>
   );
 };
