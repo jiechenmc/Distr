@@ -13,6 +13,7 @@ import {
   Colors,
   PointElement,
   LineElement,
+  LineController,
 } from "chart.js";
 
 ChartJS.register(
@@ -24,7 +25,8 @@ ChartJS.register(
   Legend,
   Colors,
   PointElement,
-  LineElement
+  LineElement,
+  LineController
 );
 
 const fetchTerms = async () => {
