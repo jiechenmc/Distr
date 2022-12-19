@@ -115,6 +115,43 @@ export default function Home() {
       colors: {
         forceOverride: true,
       },
+      tooltip: {
+        callbacks: {
+          label: function (context) {
+            let label = context.dataset.label || "";
+
+            if (label) {
+              label += ": ";
+            }
+            if (context.parsed.y !== null) {
+              label += `${(Math.round(context.parsed.y * 100) / 100).toFixed(
+                2
+              )}%`;
+            }
+            return label;
+          },
+        },
+      },
+    },
+    scales: {
+      y: {
+        title: {
+          display: true,
+          text: "Percentage of Students",
+          font: {
+            size: 16,
+          },
+        },
+      },
+      x: {
+        title: {
+          display: true,
+          text: "Grades",
+          font: {
+            size: 16,
+          },
+        },
+      },
     },
   };
 
