@@ -1,3 +1,3 @@
 export default function ChartDefault() {
-  return <div>HI</div>;
+  return <code>/chart/{"{class}"}</code>;
 }

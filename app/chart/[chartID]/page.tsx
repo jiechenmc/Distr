@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client";
 import { Bar } from "react-chartjs-2";
 import { use } from "react";
@@ -58,9 +59,11 @@ const tally = (arr: Response[]) => {
 export default function ChartDetailsPage({ params }) {
   const parsed: { [key: string]: Response[] } = {};
 
+  // The use hook fetches the data asyncronously
   const course = params["chartID"];
   const data = use(getData(course));
 
+  // Grouping data by the instructor
   data.forEach((element: Response) => {
     const { instructor } = element;
     if (!(instructor in parsed)) {
@@ -73,13 +76,15 @@ export default function ChartDetailsPage({ params }) {
   let datasets: any[] = [];
   let labels: string[] = [];
 
-  const accGrades = Object.keys(parsed).map((k) => {
+  Object.keys(parsed).forEach((k) => {
+    // Parsed grades are just gouping data by the instructor
     const total = tally(parsed[k]);
 
     if (Object.keys(total).length === 0) {
       return;
     }
 
+    // I and W are dropped
     delete total["I"];
     delete total["W"];
 
@@ -91,6 +96,7 @@ export default function ChartDetailsPage({ params }) {
       return a + b;
     }, 0);
 
+    // converting the values to percentages
     const chartValues = values.map((e) => {
       return (e / sum) * 100;
     });
@@ -179,6 +185,8 @@ export default function ChartDetailsPage({ params }) {
     data: total,
     fill: false,
   });
+
+  // End of average
 
   const chartData = {
     labels: labels,
