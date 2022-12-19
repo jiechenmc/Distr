@@ -65,6 +65,7 @@ export default function ChartDetailsPage({ params }) {
   const courses = params["chartID"].split("%3B");
 
   const charts = courses.map((course) => {
+    if (course == "") return;
     const data = use(getData(course));
 
     // Grouping data by the instructor
