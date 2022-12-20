@@ -185,6 +185,12 @@ const Home = () => {
     }
   };
 
+  const handleClick = () => {
+    if (document.getElementById("search").value) {
+      window.open(`/chart/${document.getElementById("search").value}`);
+    }
+  };
+
   // Add professor view to show trend in grades given
 
   return (
@@ -226,8 +232,10 @@ const Home = () => {
             onKeyUp={handleKeyDown}
             className="input input-bordered input-accent w-full mx-4"
           ></input>
-          <kbd className="kbd">Enter</kbd>
         </div>
+        <kbd className="kbd mr-4 hover:bg-gray-400" onClick={handleClick}>
+          Enter
+        </kbd>
       </div>
       <Bar options={options} data={chartData} />
       <DataTable completeness={20} supportedTerms={supportedTerms} />
