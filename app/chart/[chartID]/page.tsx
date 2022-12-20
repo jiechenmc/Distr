@@ -2,6 +2,7 @@
 "use client";
 import { Bar } from "react-chartjs-2";
 import { use } from "react";
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -58,25 +59,108 @@ const tally = (arr: Response[]) => {
   return total;
 };
 
-export default function ChartDetailsPage({ params }) {
-  const parsed: { [key: string]: Response[] } = {};
+const makeAverageLine = (datasets) => {
+  let total: number[] = [];
 
+  datasets.forEach((element) => {
+    const { data } = element;
+    for (let i = 0; i < data.length; ++i) {
+      if (Number.isNaN(total[i])) {
+        total[i] = data[i];
+      } else {
+        total[i] += data[i];
+      }
+    }
+  });
+
+  total = total.map((e) => {
+    return e / datasets.length;
+  });
+
+  datasets.push({
+    type: "line",
+    label: "Average",
+    data: total,
+    fill: false,
+  });
+};
+
+const makeSharedOptions = (course) => {
+  return {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top" as const,
+      },
+      title: {
+        display: true,
+        text: course,
+      },
+      colors: {
+        forceOverride: true,
+      },
+      tooltip: {
+        callbacks: {
+          label: function (context) {
+            let label = context.dataset.label || "";
+
+            if (label) {
+              label += ": ";
+            }
+            if (context.parsed.y !== null) {
+              label += `${(Math.round(context.parsed.y * 100) / 100).toFixed(
+                2
+              )}%`;
+            }
+            return label;
+          },
+        },
+      },
+    },
+    scales: {
+      y: {
+        title: {
+          display: true,
+          text: "Percentage of Students",
+          font: {
+            size: 16,
+          },
+        },
+      },
+      x: {
+        title: {
+          display: true,
+          text: "Grades",
+          font: {
+            size: 16,
+          },
+        },
+      },
+    },
+  };
+};
+
+const groupBy = (data, key) => {
+  const parsed: { [key: string]: Response[] } = {};
+  data.forEach((element: Response) => {
+    const skey = element[key];
+    if (!(skey in parsed)) {
+      parsed[skey] = [element];
+    } else {
+      parsed[skey].push(element);
+    }
+  });
+  return parsed;
+};
+
+export default function ChartDetailsPage({ params }) {
   // The use hook fetches the data asyncronously
   const courses = params["chartID"].split("%3B");
-
   const charts = courses.map((course) => {
     if (course == "") return;
     const data = use(getData(course));
 
-    // Grouping data by the instructor
-    data.forEach((element: Response) => {
-      const { instructor } = element;
-      if (!(instructor in parsed)) {
-        parsed[instructor] = [element];
-      } else {
-        parsed[instructor].push(element);
-      }
-    });
+    const parsed = groupBy(data, "instructor");
 
     let datasets: any[] = [];
     let labels: string[] = [];
@@ -113,90 +197,14 @@ export default function ChartDetailsPage({ params }) {
       });
     });
 
-    const options = {
-      responsive: true,
-      plugins: {
-        legend: {
-          position: "top" as const,
-        },
-        title: {
-          display: true,
-          text: course,
-        },
-        colors: {
-          forceOverride: true,
-        },
-        tooltip: {
-          callbacks: {
-            label: function (context) {
-              let label = context.dataset.label || "";
-
-              if (label) {
-                label += ": ";
-              }
-              if (context.parsed.y !== null) {
-                label += `${(Math.round(context.parsed.y * 100) / 100).toFixed(
-                  2
-                )}%`;
-              }
-              return label;
-            },
-          },
-        },
-      },
-      scales: {
-        y: {
-          title: {
-            display: true,
-            text: "Percentage of Students",
-            font: {
-              size: 16,
-            },
-          },
-        },
-        x: {
-          title: {
-            display: true,
-            text: "Grades",
-            font: {
-              size: 16,
-            },
-          },
-        },
-      },
-    };
-
-    // Calculate the moving average
-    let total: number[] = [];
-
-    datasets.forEach((element) => {
-      const { data } = element;
-      for (let i = 0; i < data.length; ++i) {
-        if (Number.isNaN(total[i])) {
-          total[i] = data[i];
-        } else {
-          total[i] += data[i];
-        }
-      }
-    });
-
-    total = total.map((e) => {
-      return e / datasets.length;
-    });
-
-    datasets.push({
-      type: "line",
-      label: "Average",
-      data: total,
-      fill: false,
-    });
-
-    // End of average
+    makeAverageLine(datasets);
+    const options = makeSharedOptions(course);
 
     const chartData = {
       labels: labels,
       datasets: datasets,
     };
+
     return <Bar key={course} options={options} data={chartData} />;
   });
 

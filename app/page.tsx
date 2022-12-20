@@ -226,7 +226,7 @@ const Home = () => {
             onKeyUp={handleKeyDown}
             className="input input-bordered input-accent w-full mx-4"
           ></input>
-          <kbd class="kbd">Enter</kbd>
+          <kbd className="kbd">Enter</kbd>
         </div>
       </div>
       <Bar options={options} data={chartData} />
