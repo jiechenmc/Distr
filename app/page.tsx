@@ -189,7 +189,6 @@ const Home = () => {
 
   return (
     <div>
-      <Bar options={options} data={chartData} />
       <div className="flex gap-2 mx-4">
         <div className="collapse collapse-arrow w-full max-w-sm">
           <input type="checkbox" />
@@ -197,7 +196,10 @@ const Home = () => {
             <InfoAlert message="Click to view tips!" />
           </div>
           <div className="collapse-content">
-            <ul>
+            <ul className="grid gap-2">
+              <li>
+                All courses are available provided that they are on ClassieEval!
+              </li>
               <li>Click a professor&apos;s name in the legend to hide them</li>
               <li>
                 Multiple classes can be separated by semicolons:
@@ -207,18 +209,19 @@ const Home = () => {
           </div>
         </div>
 
-        <div className="flex w-full">
+        <div className="flex w-full items-center">
           <input
             id="search"
             type="text"
             placeholder="Search... (course code can't have spaces (CSE214 is accepted but not CSE 214))"
             ref={searchRef}
             onKeyUp={handleKeyDown}
-            className="input input-bordered input-accent w-full h-full mx-4"
+            className="input input-bordered input-accent w-full mx-4"
           ></input>
           <kbd class="kbd">Enter</kbd>
         </div>
       </div>
+      <Bar options={options} data={chartData} />
       <DataTable completeness={20} supportedTerms={supportedTerms} />
     </div>
   );
