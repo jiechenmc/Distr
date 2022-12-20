@@ -189,27 +189,35 @@ const Home = () => {
 
   return (
     <div>
-      <div className="flex gap-2 mx-4">
-        <div className="collapse collapse-arrow w-full max-w-sm">
-          <input type="checkbox" />
-          <div className="collapse-title text-xl font-medium">
-            <InfoAlert message="Click to view tips!" />
-          </div>
-          <div className="collapse-content">
-            <ul className="grid gap-2">
-              <li>
-                All courses are available provided that they are on ClassieEval!
-              </li>
-              <li>Click a professor&apos;s name in the legend to hide them</li>
-              <li>
-                Multiple classes can be separated by semicolons:
-                CSE214;CSE215;CSE216
-              </li>
-            </ul>
-          </div>
-        </div>
-
+      <div className="flex gap-2 mx-4 mt-4">
         <div className="flex w-full items-center">
+          {/* The button to open modal */}
+          <div>
+            <label htmlFor="my-modal-4" className="btn">
+              Open Tips
+            </label>
+
+            {/* Put this part before </body> tag */}
+            <input type="checkbox" id="my-modal-4" className="modal-toggle" />
+            <label htmlFor="my-modal-4" className="modal cursor-pointer">
+              <label className="modal-box relative" htmlFor="">
+                <h3 className="text-lg font-bold">Welcome to distr</h3>
+                <ol className="grid gap-2">
+                  <li>
+                    All courses are available provided that they are on
+                    ClassieEval!
+                  </li>
+                  <li>
+                    Click a professor&apos;s name in the legend to hide them
+                  </li>
+                  <li>
+                    Multiple classes can be separated by semicolons:
+                    CSE214;CSE215;CSE216
+                  </li>
+                </ol>
+              </label>
+            </label>
+          </div>
           <input
             id="search"
             type="text"
