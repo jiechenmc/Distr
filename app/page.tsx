@@ -201,7 +201,7 @@ const Home = () => {
             <input type="checkbox" id="my-modal-4" className="modal-toggle" />
             <label htmlFor="my-modal-4" className="modal cursor-pointer">
               <label className="modal-box relative" htmlFor="">
-                <h3 className="text-lg font-bold">Welcome to distr</h3>
+                <h3 className="text-lg font-bold">Welcome to Distr</h3>
                 <ol className="grid gap-2">
                   <li>
                     All courses are available provided that they are on
