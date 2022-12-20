@@ -181,11 +181,11 @@ const Home = () => {
 
   const handleKeyDown = (k: KeyboardEvent) => {
     if (k.key == "Enter" && document.getElementById("search").value) {
-      window.location.href = `/chart/${
-        document.getElementById("search").value
-      }`;
+      window.open(`/chart/${document.getElementById("search").value}`);
     }
   };
+
+  // Add professor view to show trend in grades given
 
   return (
     <div>
@@ -211,7 +211,7 @@ const Home = () => {
           <input
             id="search"
             type="text"
-            placeholder="Search... "
+            placeholder="Search... (course code can't have spaces (CSE214 is accepted but not CSE 214)"
             ref={searchRef}
             onKeyUp={handleKeyDown}
             className="input input-bordered input-accent w-full h-full mx-4"
