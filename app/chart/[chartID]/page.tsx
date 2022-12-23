@@ -208,5 +208,15 @@ export default function ChartDetailsPage({ params }) {
     return <Bar key={course} options={options} data={chartData} />;
   });
 
-  return <main>{charts}</main>;
+  const handleClick = () => {
+    window.location.href = "/";
+  };
+  return (
+    <main>
+      <kbd className="kbd absolute hover:bg-gray-400" onClick={handleClick}>
+        Home
+      </kbd>
+      {charts}
+    </main>
+  );
 }

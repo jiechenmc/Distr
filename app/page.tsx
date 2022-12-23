@@ -181,13 +181,17 @@ const Home = () => {
 
   const handleKeyDown = (k: KeyboardEvent) => {
     if (k.key == "Enter" && document.getElementById("search").value) {
-      window.open(`/chart/${document.getElementById("search").value}`);
+      window.location.href = `/chart/${
+        document.getElementById("search").value
+      }`;
     }
   };
 
   const handleClick = () => {
     if (document.getElementById("search").value) {
-      window.open(`/chart/${document.getElementById("search").value}`);
+      window.location.href = `/chart/${
+        document.getElementById("search").value
+      }`;
     }
   };
 
