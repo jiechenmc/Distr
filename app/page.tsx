@@ -1,9 +1,7 @@
 // @ts-nocheck
 "use client";
 import { Bar } from "react-chartjs-2";
-import { use, useRef } from "react";
-import { useRouter } from "next/navigation";
-import InfoAlert from "../components/InfoAlert";
+import { use } from "react";
 import DataTable from "../components/DataTable";
 import {
   Chart as ChartJS,
@@ -38,7 +36,6 @@ const fetchTerms = async () => {
 
 const Home = () => {
   const data = use(fetchTerms());
-  const searchRef = useRef<HTMLInputElement>(null);
 
   const supportedTerms = data.map((e: string) => {
     return (
@@ -181,15 +178,15 @@ const Home = () => {
 
   const handleKeyDown = (k: KeyboardEvent) => {
     if (k.key == "Enter" && document.getElementById("search").value) {
-      window.location.href = `/chart/${
-        document.getElementById("search").value
-      }`;
+      handleClick();
     }
   };
 
   const handleClick = () => {
-    if (document.getElementById("search").value) {
-      window.location.href = `/chart/${
+    const queryBy = document.getElementById("queryBySelect").value;
+
+    if (document.getElementById("search").value && queryBy) {
+      window.location.href = `/chart/${queryBy}/${
         document.getElementById("search").value
       }`;
     }
@@ -228,17 +225,11 @@ const Home = () => {
 
   // TODO Add professor view to show trend in grades given
 
-  const setDoNotShow = () => {
-    if (typeof window !== "undefined") {
-      localStorage.setItem("show", false);
-    }
-  };
-
   return (
     <div>
       <div className="flex gap-2 mx-4 mt-4">
         <div className="flex w-full items-center">
-          <div>
+          <div id="open-tip-modal">
             <label htmlFor="my-modal-4" className="btn">
               Open Tips
             </label>
@@ -254,7 +245,7 @@ const Home = () => {
                     ClassieEval!
                   </li>
                   <li>
-                    Click a professor&apos;s name in the legend to hide them
+                    Click on a key in the legend to hide them from the chart!
                   </li>
                   <li>
                     Multiple classes can be separated by semicolons:
@@ -265,11 +256,20 @@ const Home = () => {
             </label>
           </div>
 
+          <div
+            id="drop-down-query"
+            className="ml-4 border-b-2 border-emerald-200 h-full items-center grid justify-center"
+          >
+            <select name="queryBy" id="queryBySelect">
+              <option value="course">Course(s)</option>
+              <option value="instructor">Instructor</option>
+            </select>
+          </div>
+
           <input
             id="search"
             type="text"
             placeholder="Search... (course code can't have spaces (CSE214 is accepted but not CSE 214))"
-            ref={searchRef}
             onKeyUp={handleKeyDown}
             className="input input-bordered input-accent w-full mx-4"
           ></input>
