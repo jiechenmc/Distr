@@ -2,7 +2,7 @@
 "use client";
 import { Bar } from "react-chartjs-2";
 import { use } from "react";
-import DataTable from "../components/DataTable";
+import DataTable from "./components/DataTable";
 import {
   Chart as ChartJS,
   CategoryScale,
