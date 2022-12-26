@@ -228,42 +228,56 @@ const Home = () => {
 
   // TODO Add professor view to show trend in grades given
 
+  const setDoNotShow = () => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("show", false);
+    }
+  };
+
   return (
     <div>
       <div className="flex gap-2 mx-4 mt-4">
         <div className="flex w-full items-center">
           {/* The button to open modal */}
           <div>
-            <label htmlFor="my-modal-4" className="btn">
+            {/* The button to open modal */}
+            <label htmlFor="my-modal" className="btn">
               Open Tips
             </label>
 
             {/* Put this part before </body> tag */}
-            <input
-              type="checkbox"
-              id="my-modal-4"
-              className="modal-toggle"
-              defaultChecked
-            />
-            <label htmlFor="my-modal-4" className="modal cursor-pointer">
-              <label className="modal-box relative" htmlFor="">
-                <h3 className="text-lg font-bold">Welcome to Distr</h3>
-                <ol className="grid gap-2">
-                  <li>
-                    All courses are available provided that they are on
-                    ClassieEval!
-                  </li>
-                  <li>
-                    Click a professor&apos;s name in the legend to hide them
-                  </li>
-                  <li>
-                    Multiple classes can be separated by semicolons:
-                    CSE214;CSE215;CSE216
-                  </li>
-                </ol>
-              </label>
-            </label>
+            <input type="checkbox" id="my-modal" className="modal-toggle" />
+            <div className="modal">
+              <div className="modal-box">
+                <label className="modal-box relative" htmlFor="">
+                  <h3 className="text-lg font-bold">Welcome to Distr</h3>
+                  <ol className="grid gap-2 p-4">
+                    <li>
+                      All courses are available provided that they are on
+                      ClassieEval!
+                    </li>
+                    <li>
+                      Click a professor&apos;s name in the legend to hide them
+                    </li>
+                    <li>
+                      Multiple classes can be separated by semicolons:
+                      CSE214;CSE215;CSE216
+                    </li>
+                  </ol>
+                </label>
+                <div className="modal-action">
+                  <label
+                    htmlFor="my-modal"
+                    className="btn"
+                    onClick={setDoNotShow}
+                  >
+                    Don&apos;t show again
+                  </label>
+                </div>
+              </div>
+            </div>
           </div>
+
           <input
             id="search"
             type="text"
