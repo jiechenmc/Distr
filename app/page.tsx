@@ -195,7 +195,38 @@ const Home = () => {
     }
   };
 
-  // Add professor view to show trend in grades given
+  const calcSemesters = () => {
+    const currentDate = new Date();
+
+    const before2015 = 2;
+    const yearsElapsed = currentDate.getFullYear() - 2015;
+    const after2015 = yearsElapsed * 4;
+
+    // 1 - Fall
+    // 2 - Winter
+    // 6 - Spring
+    // 9 - Summer
+
+    const month = currentDate.getMonth() + 1;
+
+    if (month >= 9) {
+      return before2015 + after2015 + 4;
+    } else if (month >= 6) {
+      return before2015 + after2015 + 3;
+    } else if (month >= 2) {
+      return before2015 + after2015 + 2;
+    } else if (month >= 1) {
+      return before2015 + after2015 + 1;
+    }
+  };
+
+  const totalSemester = calcSemesters();
+
+  const completeness = Math.round(
+    (supportedTerms.length / totalSemester) * 100
+  );
+
+  // TODO Add professor view to show trend in grades given
 
   return (
     <div>
@@ -242,7 +273,7 @@ const Home = () => {
         </kbd>
       </div>
       <Bar options={options} data={chartData} />
-      <DataTable completeness={20} supportedTerms={supportedTerms} />
+      <DataTable completeness={completeness} supportedTerms={supportedTerms} />
     </div>
   );
 };
