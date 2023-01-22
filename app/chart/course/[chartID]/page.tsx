@@ -205,7 +205,9 @@ export default function ChartDetailsPage({ params }) {
       datasets: datasets,
     };
 
-    return <Bar key={course} options={options} data={chartData} />;
+    return (
+      <Bar className="m-12" key={course} options={options} data={chartData} />
+    );
   });
 
   const handleClick = () => {
@@ -213,9 +215,10 @@ export default function ChartDetailsPage({ params }) {
   };
   return (
     <main>
-      <kbd className="kbd absolute hover:bg-gray-400" onClick={handleClick}>
-        Home
+      <kbd className="kbd mx-4 fixed hover:bg-gray-400" onClick={handleClick}>
+        🏠
       </kbd>
+
       {charts}
     </main>
   );
