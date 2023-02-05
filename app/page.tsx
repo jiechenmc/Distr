@@ -34,6 +34,10 @@ const Home = () => {
     }
   };
 
+  const handleShowExample = () => {
+    window.location.href = "/chart/course/CSE214";
+  };
+
   const calcSemesters = () => {
     const currentDate = new Date();
 
@@ -116,8 +120,8 @@ const Home = () => {
             className="input input-bordered input-accent w-full mx-4"
           ></input>
         </div>
-        <kbd className="kbd mr-4 hover:bg-gray-400" onClick={handleClick}>
-          Enter
+        <kbd className="kbd mr-4 hover:bg-gray-400" onClick={handleShowExample}>
+          Example
         </kbd>
       </div>
       <DataTable completeness={completeness} supportedTerms={supportedTerms} />
